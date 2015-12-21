@@ -3,7 +3,7 @@
   <persistence-unit name="fjvb_nl.paardenvriendjes2018_war_1.0-SNAPSHOTPU" transaction-type="JTA">
     <jta-data-source>Paardenvriendjes</jta-data-source>
     <class>fjvb.nl.paardenvriendjes2018.Member</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>

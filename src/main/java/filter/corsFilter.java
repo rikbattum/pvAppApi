@@ -10,17 +10,21 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import java.io.IOException;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.ext.Provider;
 
 /**
  *
  * @author Gebruiker
  */
+
+@Provider
+
 public class corsFilter implements ContainerResponseFilter {
 
     @PersistenceContext(unitName = "fjvb_nl.paardenvriendjes2018_war_1.0-SNAPSHOTPU")
-
+    
     @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
+     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
             throws IOException {
         responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
         responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");

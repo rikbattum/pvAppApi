@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
  * @author Gebruiker
  */
 @Stateless
-@Path("fjvb.nl.paardenvriendjes2018.Member")
+@Path("Member")
 public class MemberFacadeREST extends AbstractFacade<Member> {
     @PersistenceContext(unitName = "fjvb_nl.paardenvriendjes2018_war_1.0-SNAPSHOTPU")
     private EntityManager em;

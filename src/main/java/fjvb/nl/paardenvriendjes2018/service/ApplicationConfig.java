@@ -12,17 +12,16 @@ import javax.ws.rs.core.Application;
  *
  * @author Gebruiker
  */
-@javax.ws.rs.ApplicationPath("webresources")
+@javax.ws.rs.ApplicationPath("paardenvriendjes")
 public class ApplicationConfig extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
-        resources.add(filter.corsFilter.class);
-
         addRestResourceClasses(resources);
         return resources;
     }
+    
 
     /**
      * Do not modify addRestResourceClasses() method. It is automatically
@@ -30,8 +29,8 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(fjvb.nl.paardenvriendjes2018.service.MemberFacadeREST.class);
         resources.add(filter.corsFilter.class);
+        resources.add(fjvb.nl.paardenvriendjes2018.service.MemberFacadeREST.class);
     }
 
     //Add filters for CROSS DOMAIN issues: 
