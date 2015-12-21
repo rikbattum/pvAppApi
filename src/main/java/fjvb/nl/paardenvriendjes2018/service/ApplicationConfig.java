@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(fjvb.nl.paardenvriendjes2018.service.MemberFacadeREST.class);
+        resources.add(filter.corsFilter.class);
     }
 
     //Add filters for CROSS DOMAIN issues: 
