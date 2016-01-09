@@ -159,7 +159,7 @@ private Boolean western;
 
     @Override
     public String toString() {
-        return "fjvb.nl.paardenvriendjes2018.Member2[ id=" + getId() + " ]";
+        return "fjvb.nl.paardenvriendjes2018.Member[ id=" + getId() + " ]";
     }
 
     /**
