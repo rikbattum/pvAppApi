@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fjvb.nl.paardenvriendjes2018.service.service;
+package fjvb.nl.paardenvriendjes2018.service;
 
 import fjvb.nl.paardenvriendjes2018.Member;
 import java.util.List;
@@ -59,8 +59,7 @@ public class MemberFacadeREST extends AbstractFacade<Member> {
     public Member find(@PathParam("id") Long id) {
         return super.find(id);
     }
-      
-
+    
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
