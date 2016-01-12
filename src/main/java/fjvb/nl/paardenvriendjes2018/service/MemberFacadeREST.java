@@ -61,6 +61,14 @@ public class MemberFacadeREST extends AbstractFacade<Member> {
     }
     
     @GET
+    @Path("/memberid/{memberId}")
+    @Produces({"application/xml", "application/json"})
+    public Member findByMemberID(@PathParam("memberId") Long memberId) {
+        return super.find(memberId);
+    }
+    
+    
+    @GET
     @Override
     @Produces({"application/xml", "application/json"})
     public List<Member> findAll() {
