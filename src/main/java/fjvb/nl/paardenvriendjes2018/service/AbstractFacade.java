@@ -33,11 +33,11 @@ public abstract class AbstractFacade<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+    public T find(Object memberId) {
+        return getEntityManager().find(entityClass, memberId);
     }
     
-      public T findByMemberID(Long memberId) {
+      public T findByMemberID(Object memberId) {
         return getEntityManager().find(entityClass, memberId);
     }
     
