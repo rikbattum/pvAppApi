@@ -1,0 +1,68 @@
+## YAML Template.
+---
+
+// This is the basic Cassandra DB and table creation script used for Cassandra pilot; 
+
+CREATE KEYSPACE eponadb
+WITH replication = {
+	'class' : 'NetworkTopologyStrategy',
+	'datacenter1' : 2,
+	'datacenter2' : 2
+};
+
+// enable thrift
+nodetool enablethrift
+
+// CREATE Member table
+
+CREATE TABLE IF NOT EXISTS eponadb.member
+(
+	id BIGINT PRIMARY KEY,
+	achternaam VARCHAR,
+	buitenritten boolean,
+	draftsport boolean,
+	dressuur boolean,
+	ebdurance boolean,
+	eventing boolean,
+	fokken boolean,
+	geboortedatum DATE,
+	inenverkoop boolean,
+	inputemail13 VARCHAR,
+	memberid BIGINT,
+	mennen boolean,
+	naturalhorsemanship boolean,
+	overmij VARCHAR,
+	paard1 VARCHAR,
+	paard2 VARCHAR,
+	paard3 VARCHAR,
+	paard4 VARCHAR,
+	paard5 VARCHAR,
+	paard6 VARCHAR,
+	paard7 VARCHAR,
+	paard8 VARCHAR,
+	paard9 VARCHAR,
+	paard10 VARCHAR,
+	paardentrainen boolean,
+	paardenverzorgen boolean,
+	password VARCHAR,
+	plaatsnamen VARCHAR,
+	polo boolean,
+	rensport boolean,
+	rijdenlocatie boolean,
+	ringsteken boolean,
+	rodeo boolean,
+	samentrainen boolean,
+	showrijden boolean,
+	springen boolean,
+	voedinggezondheid boolean,
+	voltige boolean,
+	voorlichting boolean,
+	voornaam VARCHAR,
+	vossenjacht boolean,
+	wedstrijdsport boolean,
+	western boolean,
+	insertion_time timestamp
+);
+
+
+
