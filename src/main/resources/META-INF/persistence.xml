@@ -17,6 +17,6 @@
             <property name="kundera.pool.size.max.total" value="50" />
             <property name="kundera.client.property" value="kunderacassandraloadbalancer.xml" />
 <!--            <property name="kundera.ddl.auto.prepare" value="update" />-->
-        </properties>
+        </properties>     
     </persistence-unit>
 </persistence>

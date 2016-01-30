@@ -10,12 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.apache.cassandra.db.ColumnFamily;
 
 /**
  *
  * @author Gebruiker
  */
 @Entity
+//@ColumnFamily ("member")
+// specific annotation for Kundera implementation
+
 @XmlRootElement
 public class Member implements Serializable {
     private static long serialVersionUID = 1L;
