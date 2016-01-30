@@ -19,20 +19,12 @@ public class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
-       
+   
         return resources;
     }
-    
-
-    /**
-     * Do not modify addRestResourceClasses() method. It is automatically
-     * populated with all resources defined in the project. If required, comment
-     * out calling this method in getClasses().
-     */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+    //Add filters for CROSS DOMAIN issues: 
         resources.add(filter.corsFilter.class);
         resources.add(fjvb.nl.paardenvriendjes2018.service.MemberFacadeREST.class);
     }
-
-    //Add filters for CROSS DOMAIN issues: 
 }
