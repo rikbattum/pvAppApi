@@ -1,21 +1,25 @@
 ## YAML Template.
 ---
 
-// This is the basic Cassandra DB and table creation script used for Cassandra pilot; 
+SETUP EPONA DB POSTGRESS
 
-CREATE KEYSPACE eponadb
-WITH replication = {
-	'class' : 'NetworkTopologyStrategy',
-	'datacenter1' : 2,
-	'datacenter2' : 2
-};
+ # su - postgres
+ $ psql
+ psql (9.2.4)
 
-// enable thrift
-nodetool enablethrift
+ # or in windows, current user doesn't matter
+ c:\path\to\psql.exe -U postgres
 
-// CREATE Member table
+CREATE SCHEMA eponadb;
+CREATE USER rik PASSWORD 'admin';
+GRANT ALL ON SCHEMA eponadb TO rik;
+GRANT CONNECT ON DATABASE eponadb to rik;
+GRANT USAGE ON SCHEMA eponadb to rik;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA eponadb TO rik;
+GRANT SELECT ON ALL TABLES IN SCHEMA eponadb TO rik;
+alter rol rik superuser; 
 
-CREATE TABLE IF NOT EXISTS eponadb.member
+CREATE TABLE IF NOT EXISTS member
 (
 	id BIGINT PRIMARY KEY,
 	achternaam VARCHAR,
@@ -63,6 +67,10 @@ CREATE TABLE IF NOT EXISTS eponadb.member
 	western boolean,
 	insertion_time timestamp
 );
+COMMIT;
+
+INSERT INTO member (id, voornaam, achternaam) VALUES (1, 'rik', 'van Battum')
+COMMIT;
 
 
 

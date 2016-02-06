@@ -12,7 +12,6 @@
     <properties>    
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kundera.version>3.3</kundera.version>
     </properties>  
    
     <dependencies>
@@ -34,48 +33,13 @@
             <version>1.0.0.Final</version>
         </dependency>
         <dependency>
-            <groupId>com.impetus.kundera.client</groupId>
-            <artifactId>kundera-cassandra</artifactId>
-            <version>${kundera.version}</version>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.datastax.cassandra</groupId>
-            <artifactId>cassandra-driver-core</artifactId>
-            <version>1.0.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.impetus.kundera.client</groupId>
-            <artifactId>kundera-cassandra-ds-driver</artifactId>
-            <version>3.3</version>
-        </dependency>
-
+  
     </dependencies>
-    
-    <repositories>  
-        <repository>
-            <id>sonatype-nexus</id>
-            <name>Kundera Public Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>kundera-missing</id>
-            <name>Kundera Public Missing Resources Repository</name>
-            <url>http://kundera.googlecode.com/svn/maven2/maven-missing-resources</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories> 
-    
     <build>
         <plugins>
             <plugin>

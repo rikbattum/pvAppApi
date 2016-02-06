@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fjvb.nl.paardenvriendjes2018.service;
+package application.config;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -19,12 +19,13 @@ public class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
-   
+       resources.add(filter.corsFilter.class);
+       
         return resources;
     }
     private void addRestResourceClasses(Set<Class<?>> resources) {
     //Add filters for CROSS DOMAIN issues: 
+        resources.add(entities.service.Member1FacadeREST.class);
         resources.add(filter.corsFilter.class);
-        resources.add(fjvb.nl.paardenvriendjes2018.service.MemberFacadeREST.class);
     }
 }

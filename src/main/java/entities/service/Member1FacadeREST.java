@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fjvb.nl.paardenvriendjes2018.service;
+package entities.service;
 
-import fjvb.nl.paardenvriendjes2018.Member;
+import entities.Member1;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -25,25 +26,26 @@ import javax.ws.rs.Produces;
  */
 @Stateless
 @Path("Member")
-public class MemberFacadeREST extends AbstractFacade<Member> {
+public class Member1FacadeREST extends AbstractFacade<Member1> {
+
     @PersistenceContext(unitName = "fjvb_nl.paardenvriendjes2018_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    public MemberFacadeREST() {
-        super(Member.class);
+    public Member1FacadeREST() {
+        super(Member1.class);
     }
 
     @POST
     @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Member entity) {
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void create(Member1 entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
-    @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Long id, Member entity) {
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public void edit(@PathParam("id") Long id, Member1 entity) {
         super.edit(entity);
     }
 
@@ -55,35 +57,28 @@ public class MemberFacadeREST extends AbstractFacade<Member> {
 
     @GET
     @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Member find(@PathParam("id") Long id) {
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Member1 find(@PathParam("id") Long id) {
         return super.find(id);
     }
-    
-//    @GET
-//    @Path("memberid/{memberId}")
-//    @Produces({"application/xml", "application/json"})
-//    public Member findByMemberID(@PathParam("memberId") Long memberId) {
-//        return super.find(memberId);
-//    }
-   
+
     @GET
     @Override
-    @Produces({"application/xml", "application/json"})
-    public List<Member> findAll() {
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Member1> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
-    @Produces({"application/xml", "application/json"})
-    public List<Member> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Member1> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 
     @GET
     @Path("count")
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
         return String.valueOf(super.count());
     }
