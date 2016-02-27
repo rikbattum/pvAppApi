@@ -6,7 +6,7 @@
 package entities;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,12 +14,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,7 +43,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Member1.findByGeboortedatum", query = "SELECT m FROM Member1 m WHERE m.geboortedatum = :geboortedatum"),
     @NamedQuery(name = "Member1.findByInenverkoop", query = "SELECT m FROM Member1 m WHERE m.inenverkoop = :inenverkoop"),
     @NamedQuery(name = "Member1.findByInputemail13", query = "SELECT m FROM Member1 m WHERE m.inputemail13 = :inputemail13"),
-    @NamedQuery(name = "Member1.findByMemberid", query = "SELECT m FROM Member1 m WHERE m.memberid = :memberid"),
     @NamedQuery(name = "Member1.findByMennen", query = "SELECT m FROM Member1 m WHERE m.mennen = :mennen"),
     @NamedQuery(name = "Member1.findByNaturalhorsemanship", query = "SELECT m FROM Member1 m WHERE m.naturalhorsemanship = :naturalhorsemanship"),
     @NamedQuery(name = "Member1.findByOvermij", query = "SELECT m FROM Member1 m WHERE m.overmij = :overmij"),
@@ -66,6 +67,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Member1.findByRodeo", query = "SELECT m FROM Member1 m WHERE m.rodeo = :rodeo"),
     @NamedQuery(name = "Member1.findBySamentrainen", query = "SELECT m FROM Member1 m WHERE m.samentrainen = :samentrainen"),
     @NamedQuery(name = "Member1.findByShowrijden", query = "SELECT m FROM Member1 m WHERE m.showrijden = :showrijden"),
+    @NamedQuery(name = "Member1.findBySportklassedressuur", query = "SELECT m FROM Member1 m WHERE m.sportklassedressuur = :sportklassedressuur"),
+    @NamedQuery(name = "Member1.findBySportklasseeventing", query = "SELECT m FROM Member1 m WHERE m.sportklasseeventing = :sportklasseeventing"),
+    @NamedQuery(name = "Member1.findBySportklassemennen", query = "SELECT m FROM Member1 m WHERE m.sportklassemennen = :sportklassemennen"),
+    @NamedQuery(name = "Member1.findBySportklassespringen", query = "SELECT m FROM Member1 m WHERE m.sportklassespringen = :sportklassespringen"),
+    @NamedQuery(name = "Member1.findBySportklassevoltige", query = "SELECT m FROM Member1 m WHERE m.sportklassevoltige = :sportklassevoltige"),
     @NamedQuery(name = "Member1.findBySpringen", query = "SELECT m FROM Member1 m WHERE m.springen = :springen"),
     @NamedQuery(name = "Member1.findByVoedinggezondheid", query = "SELECT m FROM Member1 m WHERE m.voedinggezondheid = :voedinggezondheid"),
     @NamedQuery(name = "Member1.findByVoltige", query = "SELECT m FROM Member1 m WHERE m.voltige = :voltige"),
@@ -106,8 +112,6 @@ public class Member1 implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "inputemail13")
     private String inputemail13;
-    @Column(name = "memberid")
-    private BigInteger memberid;
     @Column(name = "mennen")
     private Boolean mennen;
     @Column(name = "naturalhorsemanship")
@@ -169,6 +173,21 @@ public class Member1 implements Serializable {
     private Boolean samentrainen;
     @Column(name = "showrijden")
     private Boolean showrijden;
+    @Size(max = 2147483647)
+    @Column(name = "sportklassedressuur")
+    private String sportklassedressuur;
+    @Size(max = 2147483647)
+    @Column(name = "sportklasseeventing")
+    private String sportklasseeventing;
+    @Size(max = 2147483647)
+    @Column(name = "sportklassemennen")
+    private String sportklassemennen;
+    @Size(max = 2147483647)
+    @Column(name = "sportklassespringen")
+    private String sportklassespringen;
+    @Size(max = 2147483647)
+    @Column(name = "sportklassevoltige")
+    private String sportklassevoltige;
     @Column(name = "springen")
     private Boolean springen;
     @Column(name = "voedinggezondheid")
@@ -189,6 +208,8 @@ public class Member1 implements Serializable {
     @Column(name = "insertion_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date insertionTime;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Horse> horseCollection;
 
     public Member1() {
     }
@@ -283,14 +304,6 @@ public class Member1 implements Serializable {
 
     public void setInputemail13(String inputemail13) {
         this.inputemail13 = inputemail13;
-    }
-
-    public BigInteger getMemberid() {
-        return memberid;
-    }
-
-    public void setMemberid(BigInteger memberid) {
-        this.memberid = memberid;
     }
 
     public Boolean getMennen() {
@@ -485,6 +498,46 @@ public class Member1 implements Serializable {
         this.showrijden = showrijden;
     }
 
+    public String getSportklassedressuur() {
+        return sportklassedressuur;
+    }
+
+    public void setSportklassedressuur(String sportklassedressuur) {
+        this.sportklassedressuur = sportklassedressuur;
+    }
+
+    public String getSportklasseeventing() {
+        return sportklasseeventing;
+    }
+
+    public void setSportklasseeventing(String sportklasseeventing) {
+        this.sportklasseeventing = sportklasseeventing;
+    }
+
+    public String getSportklassemennen() {
+        return sportklassemennen;
+    }
+
+    public void setSportklassemennen(String sportklassemennen) {
+        this.sportklassemennen = sportklassemennen;
+    }
+
+    public String getSportklassespringen() {
+        return sportklassespringen;
+    }
+
+    public void setSportklassespringen(String sportklassespringen) {
+        this.sportklassespringen = sportklassespringen;
+    }
+
+    public String getSportklassevoltige() {
+        return sportklassevoltige;
+    }
+
+    public void setSportklassevoltige(String sportklassevoltige) {
+        this.sportklassevoltige = sportklassevoltige;
+    }
+
     public Boolean getSpringen() {
         return springen;
     }
@@ -557,6 +610,15 @@ public class Member1 implements Serializable {
         this.insertionTime = insertionTime;
     }
 
+    @XmlTransient
+    public Collection<Horse> getHorseCollection() {
+        return horseCollection;
+    }
+
+    public void setHorseCollection(Collection<Horse> horseCollection) {
+        this.horseCollection = horseCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -579,7 +641,7 @@ public class Member1 implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Member1[ id=" + id + " ]";
+        return "entities.service.Member1[ id=" + id + " ]";
     }
     
 }

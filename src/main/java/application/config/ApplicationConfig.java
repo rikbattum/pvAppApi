@@ -25,6 +25,7 @@ public class ApplicationConfig extends Application {
     }
     private void addRestResourceClasses(Set<Class<?>> resources) {
     //Add filters for CROSS DOMAIN issues: 
+        resources.add(entities.service.HorseFacadeREST.class);
         resources.add(entities.service.Member1FacadeREST.class);
         resources.add(entities.service.SessionFacadeREST.class);
         resources.add(filter.corsFilter.class);

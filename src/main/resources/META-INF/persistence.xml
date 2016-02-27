@@ -4,6 +4,7 @@
     <jta-data-source>java:app/Paardenvriendjes__pm</jta-data-source>
     <class>entities.Member1</class>
     <class>entities.Session</class>
+    <class>entities.Horse</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

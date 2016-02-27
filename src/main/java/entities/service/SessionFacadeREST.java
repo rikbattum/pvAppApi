@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
  * @author Gebruiker
  */
 @Stateless
-@Path("entities.session")
+@Path("session")
 public class SessionFacadeREST extends AbstractFacade<Session> {
 
     @PersistenceContext(unitName = "fjvb_nl.paardenvriendjes2018_war_1.0-SNAPSHOTPU")

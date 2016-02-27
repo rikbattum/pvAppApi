@@ -19,6 +19,7 @@ GRANT SELECT ON ALL SEQUENCES IN SCHEMA eponadb TO rik;
 GRANT SELECT ON ALL TABLES IN SCHEMA eponadb TO rik;
 alter rol rik superuser; 
 
+
 CREATE TABLE IF NOT EXISTS member
 (
 	id BIGINT PRIMARY KEY,
@@ -32,7 +33,6 @@ CREATE TABLE IF NOT EXISTS member
 	geboortedatum DATE,
 	inenverkoop boolean,
 	inputemail13 VARCHAR,
-	memberid BIGINT,
 	mennen boolean,
 	naturalhorsemanship boolean,
 	overmij VARCHAR,
@@ -57,6 +57,11 @@ CREATE TABLE IF NOT EXISTS member
 	rodeo boolean,
 	samentrainen boolean,
 	showrijden boolean,
+        sportKlasseDressuur VARCHAR,
+        sportKlasseEventing VARCHAR,
+        sportKlasseMennen VARCHAR,
+        sportKlasseSpringen VARCHAR,
+        sportKlasseVoltige VARCHAR,
 	springen boolean,
 	voedinggezondheid boolean,
 	voltige boolean,
@@ -69,8 +74,63 @@ CREATE TABLE IF NOT EXISTS member
 );
 COMMIT;
 
+
+CREATE TABLE IF NOT EXISTS horse
+(
+afstamming VARCHAR,
+drafsport boolean,
+dressuur boolean,
+endurance boolean,
+eventing boolean,
+fokken boolean,
+geboortedatum DATE,
+geslacht VARCHAR,
+horseId BIGINT PRIMARY KEY,
+karakter VARCHAR,
+memberId BIGINT REFERENCES member (id),
+mennen boolean,
+naturalHorsemanship boolean,
+overmijnpaard VARCHAR,
+polo boolean,
+rensport boolean,
+ringsteken boolean,
+rodeo boolean,
+showrijden boolean,
+sportKlasseDressuur VARCHAR,
+sportKlasseEventing VARCHAR,
+sportKlasseMennen VARCHAR,
+sportKlasseSpringen VARCHAR,
+sportKlasseVoltige VARCHAR,
+springen boolean,
+tranfer VARCHAR,
+voltige boolean,
+voornaam VARCHAR,
+vossenjacht boolean,
+waarde VARCHAR,
+western boolean
+);
+COMMIT;
+
 INSERT INTO member (id, voornaam, achternaam) VALUES (1, 'rik', 'van Battum')
 COMMIT;
+
+CREATE TABLE eponadb.session
+(
+   id BIGINT PRIMARY KEY,
+   achternaam VARCHAR,
+   voornaam VARCHAR
+) 
+WITH (
+  OIDS = FALSE
+)
+;
+ALTER TABLE eponadb.session
+  OWNER TO rik;
+COMMENT ON TABLE eponadb.session
+  IS 'Specific table to hold session';
+
+COMMIT;
+
 
 
 
