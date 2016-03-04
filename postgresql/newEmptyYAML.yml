@@ -132,5 +132,99 @@ COMMENT ON TABLE eponadb.session
 COMMIT;
 
 
+CREATE TABLE IF NOT EXISTS event
+(
+eventname VARCHAR,
+eventdate DATE,
+eventplace VARCHAR,
+eventId BIGINT PRIMARY KEY,
+eventmap BYTEA, 
+onderdeel1 VARCHAR,
+rank1 VARCHAR,
+points1 VARCHAR,
+onderdeel2 VARCHAR,
+rank2 VARCHAR,
+points2 VARCHAR,
+onderdeel3 VARCHAR,
+rank3 VARCHAR,
+points3 VARCHAR,
+comments VARCHAR,
+image1 VARCHAR,
+image2 VARCHAR, 
+image3 VARCHAR,
+memderid BIGINT REFERENCES member (id),
+horseId BIGINT REFERENCES horse (horseid)
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS rit
+(
+ritname VARCHAR,
+ritdate DATE,
+ritplace VARCHAR,
+ritId BIGINT PRIMARY KEY,
+ritmap BYTEA, 
+typrit VARCHAR,
+comments VARCHAR,
+image1 VARCHAR,
+image2 VARCHAR, 
+image3 VARCHAR,
+memderid BIGINT REFERENCES member (id),
+horseId BIGINT REFERENCES horse (horseid)
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS eventcomment
+(
+eventcommentId BIGINT PRIMARY KEY,
+date DATE,
+createdon TIMESTAMP,
+text VARCHAR,
+memderid BIGINT REFERENCES member (id),
+commenttype VARCHAR,
+eventId BIGINT REFERENCES event (eventId)
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS ritcomment
+(
+ritcommentId BIGINT PRIMARY KEY,
+date DATE,
+createdon TIMESTAMP,
+text VARCHAR,
+memderid BIGINT REFERENCES member (id),
+commenttype VARCHAR,
+ritId BIGINT REFERENCES event (eventId)
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS eventlike
+(
+eventlikeId BIGINT PRIMARY KEY,
+liketype VARCHAR,
+memderid BIGINT REFERENCES member (id),
+eventId BIGINT REFERENCES event (eventId),
+createdon TIMESTAMP
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS ritlike
+(
+ritlikeId BIGINT PRIMARY KEY,
+liketype VARCHAR,
+memderid BIGINT REFERENCES member (id),
+ritId BIGINT REFERENCES event (eventId),
+createdon TIMESTAMP
+);
+COMMIT;
+
+
+CREATE TABLE IF NOT EXISTS friend
+(
+friendId BIGINT PRIMARY KEY REFERENCES member (id),
+createdon TIMESTAMP,
+text VARCHAR
+);
+COMMIT;
 
 
