@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Member1.findById", query = "SELECT m FROM Member1 m WHERE m.id = :id"),
     @NamedQuery(name = "Member1.findByAchternaam", query = "SELECT m FROM Member1 m WHERE m.achternaam = :achternaam"),
     @NamedQuery(name = "Member1.findByBuitenritten", query = "SELECT m FROM Member1 m WHERE m.buitenritten = :buitenritten"),
+    @NamedQuery(name = "Member1.findByCreatedon", query = "SELECT m FROM Member1 m WHERE m.createdon = :createdon"),
     @NamedQuery(name = "Member1.findByDraftsport", query = "SELECT m FROM Member1 m WHERE m.draftsport = :draftsport"),
     @NamedQuery(name = "Member1.findByDressuur", query = "SELECT m FROM Member1 m WHERE m.dressuur = :dressuur"),
     @NamedQuery(name = "Member1.findByEbdurance", query = "SELECT m FROM Member1 m WHERE m.ebdurance = :ebdurance"),
@@ -47,6 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Member1.findByNaturalhorsemanship", query = "SELECT m FROM Member1 m WHERE m.naturalhorsemanship = :naturalhorsemanship"),
     @NamedQuery(name = "Member1.findByOvermij", query = "SELECT m FROM Member1 m WHERE m.overmij = :overmij"),
     @NamedQuery(name = "Member1.findByPaard1", query = "SELECT m FROM Member1 m WHERE m.paard1 = :paard1"),
+    @NamedQuery(name = "Member1.findByPaard10", query = "SELECT m FROM Member1 m WHERE m.paard10 = :paard10"),
     @NamedQuery(name = "Member1.findByPaard2", query = "SELECT m FROM Member1 m WHERE m.paard2 = :paard2"),
     @NamedQuery(name = "Member1.findByPaard3", query = "SELECT m FROM Member1 m WHERE m.paard3 = :paard3"),
     @NamedQuery(name = "Member1.findByPaard4", query = "SELECT m FROM Member1 m WHERE m.paard4 = :paard4"),
@@ -55,12 +59,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Member1.findByPaard7", query = "SELECT m FROM Member1 m WHERE m.paard7 = :paard7"),
     @NamedQuery(name = "Member1.findByPaard8", query = "SELECT m FROM Member1 m WHERE m.paard8 = :paard8"),
     @NamedQuery(name = "Member1.findByPaard9", query = "SELECT m FROM Member1 m WHERE m.paard9 = :paard9"),
-    @NamedQuery(name = "Member1.findByPaard10", query = "SELECT m FROM Member1 m WHERE m.paard10 = :paard10"),
     @NamedQuery(name = "Member1.findByPaardentrainen", query = "SELECT m FROM Member1 m WHERE m.paardentrainen = :paardentrainen"),
     @NamedQuery(name = "Member1.findByPaardenverzorgen", query = "SELECT m FROM Member1 m WHERE m.paardenverzorgen = :paardenverzorgen"),
     @NamedQuery(name = "Member1.findByPassword", query = "SELECT m FROM Member1 m WHERE m.password = :password"),
     @NamedQuery(name = "Member1.findByPlaatsnamen", query = "SELECT m FROM Member1 m WHERE m.plaatsnamen = :plaatsnamen"),
     @NamedQuery(name = "Member1.findByPolo", query = "SELECT m FROM Member1 m WHERE m.polo = :polo"),
+    @NamedQuery(name = "Member1.findByProfileimage", query = "SELECT m FROM Member1 m WHERE m.profileimage = :profileimage"),
     @NamedQuery(name = "Member1.findByRensport", query = "SELECT m FROM Member1 m WHERE m.rensport = :rensport"),
     @NamedQuery(name = "Member1.findByRijdenlocatie", query = "SELECT m FROM Member1 m WHERE m.rijdenlocatie = :rijdenlocatie"),
     @NamedQuery(name = "Member1.findByRingsteken", query = "SELECT m FROM Member1 m WHERE m.ringsteken = :ringsteken"),
@@ -79,8 +83,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Member1.findByVoornaam", query = "SELECT m FROM Member1 m WHERE m.voornaam = :voornaam"),
     @NamedQuery(name = "Member1.findByVossenjacht", query = "SELECT m FROM Member1 m WHERE m.vossenjacht = :vossenjacht"),
     @NamedQuery(name = "Member1.findByWedstrijdsport", query = "SELECT m FROM Member1 m WHERE m.wedstrijdsport = :wedstrijdsport"),
-    @NamedQuery(name = "Member1.findByWestern", query = "SELECT m FROM Member1 m WHERE m.western = :western"),
-    @NamedQuery(name = "Member1.findByInsertionTime", query = "SELECT m FROM Member1 m WHERE m.insertionTime = :insertionTime")})
+    @NamedQuery(name = "Member1.findByWestern", query = "SELECT m FROM Member1 m WHERE m.western = :western")})
 public class Member1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -89,11 +92,14 @@ public class Member1 implements Serializable {
     @NotNull
     @Column(name = "id")
     private Long id;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "achternaam")
     private String achternaam;
     @Column(name = "buitenritten")
     private Boolean buitenritten;
+    @Column(name = "createdon")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdon;
     @Column(name = "draftsport")
     private Boolean draftsport;
     @Column(name = "dressuur")
@@ -109,58 +115,61 @@ public class Member1 implements Serializable {
     private Date geboortedatum;
     @Column(name = "inenverkoop")
     private Boolean inenverkoop;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "inputemail13")
     private String inputemail13;
     @Column(name = "mennen")
     private Boolean mennen;
     @Column(name = "naturalhorsemanship")
     private Boolean naturalhorsemanship;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "overmij")
     private String overmij;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "paard1")
     private String paard1;
-    @Size(max = 2147483647)
-    @Column(name = "paard2")
-    private String paard2;
-    @Size(max = 2147483647)
-    @Column(name = "paard3")
-    private String paard3;
-    @Size(max = 2147483647)
-    @Column(name = "paard4")
-    private String paard4;
-    @Size(max = 2147483647)
-    @Column(name = "paard5")
-    private String paard5;
-    @Size(max = 2147483647)
-    @Column(name = "paard6")
-    private String paard6;
-    @Size(max = 2147483647)
-    @Column(name = "paard7")
-    private String paard7;
-    @Size(max = 2147483647)
-    @Column(name = "paard8")
-    private String paard8;
-    @Size(max = 2147483647)
-    @Column(name = "paard9")
-    private String paard9;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "paard10")
     private String paard10;
+    @Size(max = 255)
+    @Column(name = "paard2")
+    private String paard2;
+    @Size(max = 255)
+    @Column(name = "paard3")
+    private String paard3;
+    @Size(max = 255)
+    @Column(name = "paard4")
+    private String paard4;
+    @Size(max = 255)
+    @Column(name = "paard5")
+    private String paard5;
+    @Size(max = 255)
+    @Column(name = "paard6")
+    private String paard6;
+    @Size(max = 255)
+    @Column(name = "paard7")
+    private String paard7;
+    @Size(max = 255)
+    @Column(name = "paard8")
+    private String paard8;
+    @Size(max = 255)
+    @Column(name = "paard9")
+    private String paard9;
     @Column(name = "paardentrainen")
     private Boolean paardentrainen;
     @Column(name = "paardenverzorgen")
     private Boolean paardenverzorgen;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "password")
     private String password;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "plaatsnamen")
     private String plaatsnamen;
     @Column(name = "polo")
     private Boolean polo;
+    @Size(max = 255)
+    @Column(name = "profileimage")
+    private String profileimage;
     @Column(name = "rensport")
     private Boolean rensport;
     @Column(name = "rijdenlocatie")
@@ -173,19 +182,19 @@ public class Member1 implements Serializable {
     private Boolean samentrainen;
     @Column(name = "showrijden")
     private Boolean showrijden;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "sportklassedressuur")
     private String sportklassedressuur;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "sportklasseeventing")
     private String sportklasseeventing;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "sportklassemennen")
     private String sportklassemennen;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "sportklassespringen")
     private String sportklassespringen;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "sportklassevoltige")
     private String sportklassevoltige;
     @Column(name = "springen")
@@ -196,7 +205,7 @@ public class Member1 implements Serializable {
     private Boolean voltige;
     @Column(name = "voorlichting")
     private Boolean voorlichting;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "voornaam")
     private String voornaam;
     @Column(name = "vossenjacht")
@@ -205,11 +214,28 @@ public class Member1 implements Serializable {
     private Boolean wedstrijdsport;
     @Column(name = "western")
     private Boolean western;
-    @Column(name = "insertion_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date insertionTime;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Message> messageCollection;
     @OneToMany(mappedBy = "memberid")
     private Collection<Horse> horseCollection;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Eventcomment> eventcommentCollection;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Ritcomment> ritcommentCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "member1")
+    private Friend friend;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Eventlike> eventlikeCollection;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Messagecomment> messagecommentCollection;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Event> eventCollection;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Rit> ritCollection;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Ritlike> ritlikeCollection;
+    @OneToMany(mappedBy = "memberid")
+    private Collection<Messagelike> messagelikeCollection;
 
     public Member1() {
     }
@@ -240,6 +266,14 @@ public class Member1 implements Serializable {
 
     public void setBuitenritten(Boolean buitenritten) {
         this.buitenritten = buitenritten;
+    }
+
+    public Date getCreatedon() {
+        return createdon;
+    }
+
+    public void setCreatedon(Date createdon) {
+        this.createdon = createdon;
     }
 
     public Boolean getDraftsport() {
@@ -338,6 +372,14 @@ public class Member1 implements Serializable {
         this.paard1 = paard1;
     }
 
+    public String getPaard10() {
+        return paard10;
+    }
+
+    public void setPaard10(String paard10) {
+        this.paard10 = paard10;
+    }
+
     public String getPaard2() {
         return paard2;
     }
@@ -402,14 +444,6 @@ public class Member1 implements Serializable {
         this.paard9 = paard9;
     }
 
-    public String getPaard10() {
-        return paard10;
-    }
-
-    public void setPaard10(String paard10) {
-        this.paard10 = paard10;
-    }
-
     public Boolean getPaardentrainen() {
         return paardentrainen;
     }
@@ -448,6 +482,14 @@ public class Member1 implements Serializable {
 
     public void setPolo(Boolean polo) {
         this.polo = polo;
+    }
+
+    public String getProfileimage() {
+        return profileimage;
+    }
+
+    public void setProfileimage(String profileimage) {
+        this.profileimage = profileimage;
     }
 
     public Boolean getRensport() {
@@ -602,12 +644,13 @@ public class Member1 implements Serializable {
         this.western = western;
     }
 
-    public Date getInsertionTime() {
-        return insertionTime;
+    @XmlTransient
+    public Collection<Message> getMessageCollection() {
+        return messageCollection;
     }
 
-    public void setInsertionTime(Date insertionTime) {
-        this.insertionTime = insertionTime;
+    public void setMessageCollection(Collection<Message> messageCollection) {
+        this.messageCollection = messageCollection;
     }
 
     @XmlTransient
@@ -617,6 +660,86 @@ public class Member1 implements Serializable {
 
     public void setHorseCollection(Collection<Horse> horseCollection) {
         this.horseCollection = horseCollection;
+    }
+
+    @XmlTransient
+    public Collection<Eventcomment> getEventcommentCollection() {
+        return eventcommentCollection;
+    }
+
+    public void setEventcommentCollection(Collection<Eventcomment> eventcommentCollection) {
+        this.eventcommentCollection = eventcommentCollection;
+    }
+
+    @XmlTransient
+    public Collection<Ritcomment> getRitcommentCollection() {
+        return ritcommentCollection;
+    }
+
+    public void setRitcommentCollection(Collection<Ritcomment> ritcommentCollection) {
+        this.ritcommentCollection = ritcommentCollection;
+    }
+
+    public Friend getFriend() {
+        return friend;
+    }
+
+    public void setFriend(Friend friend) {
+        this.friend = friend;
+    }
+
+    @XmlTransient
+    public Collection<Eventlike> getEventlikeCollection() {
+        return eventlikeCollection;
+    }
+
+    public void setEventlikeCollection(Collection<Eventlike> eventlikeCollection) {
+        this.eventlikeCollection = eventlikeCollection;
+    }
+
+    @XmlTransient
+    public Collection<Messagecomment> getMessagecommentCollection() {
+        return messagecommentCollection;
+    }
+
+    public void setMessagecommentCollection(Collection<Messagecomment> messagecommentCollection) {
+        this.messagecommentCollection = messagecommentCollection;
+    }
+
+    @XmlTransient
+    public Collection<Event> getEventCollection() {
+        return eventCollection;
+    }
+
+    public void setEventCollection(Collection<Event> eventCollection) {
+        this.eventCollection = eventCollection;
+    }
+
+    @XmlTransient
+    public Collection<Rit> getRitCollection() {
+        return ritCollection;
+    }
+
+    public void setRitCollection(Collection<Rit> ritCollection) {
+        this.ritCollection = ritCollection;
+    }
+
+    @XmlTransient
+    public Collection<Ritlike> getRitlikeCollection() {
+        return ritlikeCollection;
+    }
+
+    public void setRitlikeCollection(Collection<Ritlike> ritlikeCollection) {
+        this.ritlikeCollection = ritlikeCollection;
+    }
+
+    @XmlTransient
+    public Collection<Messagelike> getMessagelikeCollection() {
+        return messagelikeCollection;
+    }
+
+    public void setMessagelikeCollection(Collection<Messagelike> messagelikeCollection) {
+        this.messagelikeCollection = messagelikeCollection;
     }
 
     @Override
@@ -641,7 +764,7 @@ public class Member1 implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.service.Member1[ id=" + id + " ]";
+        return "entities.Member1[ id=" + id + " ]";
     }
     
 }

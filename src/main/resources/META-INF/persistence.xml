@@ -5,6 +5,16 @@
     <class>entities.Member1</class>
     <class>entities.Session</class>
     <class>entities.Horse</class>
+    <class>entities.Event</class>
+    <class>entities.Eventcomment</class>
+    <class>entities.Eventlike</class>
+    <class>entities.Friend</class>
+    <class>entities.Rit</class>
+    <class>entities.Ritcomment</class>
+    <class>entities.Ritlike</class>
+    <class>entities.Message</class>
+    <class>entities.Messagecomment</class>
+    <class>entities.Messagelike</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

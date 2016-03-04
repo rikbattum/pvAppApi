@@ -5,7 +5,7 @@
  */
 package entities.service;
 
-import entities.Horse;
+import entities.Eventlike;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,27 +25,27 @@ import javax.ws.rs.core.MediaType;
  * @author Gebruiker
  */
 @Stateless
-@Path("horse")
-public class HorseFacadeREST extends AbstractFacade<Horse> {
+@Path("entities.eventlike")
+public class EventlikeFacadeREST extends AbstractFacade<Eventlike> {
 
     @PersistenceContext(unitName = "fjvb_nl.paardenvriendjes2018_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
-    public HorseFacadeREST() {
-        super(Horse.class);
+    public EventlikeFacadeREST() {
+        super(Eventlike.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Horse entity) {
+    public void create(Eventlike entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Horse entity) {
+    public void edit(@PathParam("id") Long id, Eventlike entity) {
         super.edit(entity);
     }
 
@@ -58,21 +58,21 @@ public class HorseFacadeREST extends AbstractFacade<Horse> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Horse find(@PathParam("id") Long id) {
+    public Eventlike find(@PathParam("id") Long id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Horse> findAll() {
+    public List<Eventlike> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Horse> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Eventlike> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

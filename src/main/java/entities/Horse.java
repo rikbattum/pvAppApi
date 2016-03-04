@@ -6,20 +6,24 @@
 package entities;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Horse.findAll", query = "SELECT h FROM Horse h"),
     @NamedQuery(name = "Horse.findByHorseid", query = "SELECT h FROM Horse h WHERE h.horseid = :horseid"),
     @NamedQuery(name = "Horse.findByAfstamming", query = "SELECT h FROM Horse h WHERE h.afstamming = :afstamming"),
+    @NamedQuery(name = "Horse.findByCreatedon", query = "SELECT h FROM Horse h WHERE h.createdon = :createdon"),
     @NamedQuery(name = "Horse.findByDrafsport", query = "SELECT h FROM Horse h WHERE h.drafsport = :drafsport"),
     @NamedQuery(name = "Horse.findByDressuur", query = "SELECT h FROM Horse h WHERE h.dressuur = :dressuur"),
     @NamedQuery(name = "Horse.findByEndurance", query = "SELECT h FROM Horse h WHERE h.endurance = :endurance"),
@@ -39,6 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Horse.findByFokken", query = "SELECT h FROM Horse h WHERE h.fokken = :fokken"),
     @NamedQuery(name = "Horse.findByGeboortedatum", query = "SELECT h FROM Horse h WHERE h.geboortedatum = :geboortedatum"),
     @NamedQuery(name = "Horse.findByGeslacht", query = "SELECT h FROM Horse h WHERE h.geslacht = :geslacht"),
+    @NamedQuery(name = "Horse.findByHorseimage", query = "SELECT h FROM Horse h WHERE h.horseimage = :horseimage"),
     @NamedQuery(name = "Horse.findByKarakter", query = "SELECT h FROM Horse h WHERE h.karakter = :karakter"),
     @NamedQuery(name = "Horse.findByMennen", query = "SELECT h FROM Horse h WHERE h.mennen = :mennen"),
     @NamedQuery(name = "Horse.findByNaturalhorsemanship", query = "SELECT h FROM Horse h WHERE h.naturalhorsemanship = :naturalhorsemanship"),
@@ -59,8 +65,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Horse.findByVoornaam", query = "SELECT h FROM Horse h WHERE h.voornaam = :voornaam"),
     @NamedQuery(name = "Horse.findByVossenjacht", query = "SELECT h FROM Horse h WHERE h.vossenjacht = :vossenjacht"),
     @NamedQuery(name = "Horse.findByWaarde", query = "SELECT h FROM Horse h WHERE h.waarde = :waarde"),
-    @NamedQuery(name = "Horse.findByWestern", query = "SELECT h FROM Horse h WHERE h.western = :western"),
-    @NamedQuery(name = "Horse.findByMemberid", query = "SELECT h FROM Horse h WHERE h.memberid = :memberid")})
+    @NamedQuery(name = "Horse.findByWestern", query = "SELECT h FROM Horse h WHERE h.western = :western")})
 public class Horse implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,6 +77,9 @@ public class Horse implements Serializable {
     @Size(max = 255)
     @Column(name = "afstamming")
     private String afstamming;
+    @Column(name = "createdon")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdon;
     @Column(name = "drafsport")
     private Boolean drafsport;
     @Column(name = "dressuur")
@@ -88,6 +96,9 @@ public class Horse implements Serializable {
     @Size(max = 255)
     @Column(name = "geslacht")
     private String geslacht;
+    @Size(max = 255)
+    @Column(name = "horseimage")
+    private String horseimage;
     @Size(max = 255)
     @Column(name = "karakter")
     private String karakter;
@@ -140,8 +151,13 @@ public class Horse implements Serializable {
     private String waarde;
     @Column(name = "western")
     private Boolean western;
-    @Column(name = "memberid")
-    private BigInteger memberid;
+    @JoinColumn(name = "memberid", referencedColumnName = "id")
+    @ManyToOne
+    private Member1 memberid;
+    @OneToMany(mappedBy = "horseid")
+    private Collection<Event> eventCollection;
+    @OneToMany(mappedBy = "horseid")
+    private Collection<Rit> ritCollection;
 
     public Horse() {
     }
@@ -164,6 +180,14 @@ public class Horse implements Serializable {
 
     public void setAfstamming(String afstamming) {
         this.afstamming = afstamming;
+    }
+
+    public Date getCreatedon() {
+        return createdon;
+    }
+
+    public void setCreatedon(Date createdon) {
+        this.createdon = createdon;
     }
 
     public Boolean getDrafsport() {
@@ -220,6 +244,14 @@ public class Horse implements Serializable {
 
     public void setGeslacht(String geslacht) {
         this.geslacht = geslacht;
+    }
+
+    public String getHorseimage() {
+        return horseimage;
+    }
+
+    public void setHorseimage(String horseimage) {
+        this.horseimage = horseimage;
     }
 
     public String getKarakter() {
@@ -390,12 +422,30 @@ public class Horse implements Serializable {
         this.western = western;
     }
 
-    public BigInteger getMemberid() {
+    public Member1 getMemberid() {
         return memberid;
     }
 
-    public void setMemberid(BigInteger memberid) {
+    public void setMemberid(Member1 memberid) {
         this.memberid = memberid;
+    }
+
+    @XmlTransient
+    public Collection<Event> getEventCollection() {
+        return eventCollection;
+    }
+
+    public void setEventCollection(Collection<Event> eventCollection) {
+        this.eventCollection = eventCollection;
+    }
+
+    @XmlTransient
+    public Collection<Rit> getRitCollection() {
+        return ritCollection;
+    }
+
+    public void setRitCollection(Collection<Rit> ritCollection) {
+        this.ritCollection = ritCollection;
     }
 
     @Override
@@ -420,7 +470,7 @@ public class Horse implements Serializable {
 
     @Override
     public String toString() {
-        return "application.config.Horse[ horseid=" + horseid + " ]";
+        return "entities.Horse[ horseid=" + horseid + " ]";
     }
     
 }

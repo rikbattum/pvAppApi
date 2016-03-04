@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Session.findAll", query = "SELECT s FROM Session s"),
     @NamedQuery(name = "Session.findById", query = "SELECT s FROM Session s WHERE s.id = :id"),
     @NamedQuery(name = "Session.findByAchternaam", query = "SELECT s FROM Session s WHERE s.achternaam = :achternaam"),
+    @NamedQuery(name = "Session.findByCreatedon", query = "SELECT s FROM Session s WHERE s.createdon = :createdon"),
     @NamedQuery(name = "Session.findByVoornaam", query = "SELECT s FROM Session s WHERE s.voornaam = :voornaam")})
 public class Session implements Serializable {
 
@@ -37,10 +41,13 @@ public class Session implements Serializable {
     @NotNull
     @Column(name = "id")
     private Long id;
-    @Size(max = 2147483647)
+    @Size(max = 255)
     @Column(name = "achternaam")
     private String achternaam;
-    @Size(max = 2147483647)
+    @Column(name = "createdon")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdon;
+    @Size(max = 255)
     @Column(name = "voornaam")
     private String voornaam;
 
@@ -65,6 +72,14 @@ public class Session implements Serializable {
 
     public void setAchternaam(String achternaam) {
         this.achternaam = achternaam;
+    }
+
+    public Date getCreatedon() {
+        return createdon;
+    }
+
+    public void setCreatedon(Date createdon) {
+        this.createdon = createdon;
     }
 
     public String getVoornaam() {
