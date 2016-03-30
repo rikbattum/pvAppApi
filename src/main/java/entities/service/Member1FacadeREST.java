@@ -5,6 +5,10 @@
  */
 package entities.service;
 
+import com.stormpath.sdk.account.Account;
+import com.stormpath.sdk.application.Application;
+import com.stormpath.sdk.client.Client;
+import com.stormpath.sdk.client.Clients;
 import entities.Member1;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -39,7 +43,26 @@ public class Member1FacadeREST extends AbstractFacade<Member1> {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Member1 entity) {
+        try {
+            System.out.println("CHECK THIS");
+            System.out.println(entity);
+            Client client = Clients.builder().build();
+            Application application = client.getResource(System.getenv("STORMPATH_APPLICATION_HREF"), Application.class);
+            Account account = client.instantiate(Account.class);
+            account
+                    .setGivenName(entity.getVoornaam())
+                    .setSurname(entity.getAchternaam())
+                    .setUsername(entity.getVoornaam() + " " + entity.getAchternaam())
+                    .setEmail(entity.getInputemail13())
+                    .setPassword(entity.getPassword())
+                    .getCustomData().put("Id", entity.getId());
+            account = application.createAccount(account);
+        } catch (Exception e) {
+            System.out.println("registration did not succeed" + e.getMessage());
+        }
+        
         super.create(entity);
+
     }
 
     @PUT
@@ -87,5 +110,5 @@ public class Member1FacadeREST extends AbstractFacade<Member1> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }
