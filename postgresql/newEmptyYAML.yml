@@ -1,0 +1,267 @@
+## YAML Template.
+---
+
+SETUP EPONA DB POSTGRESS
+
+ # su - postgres
+ $ psql
+ psql (9.2.4)
+
+ # or in windows, current user doesn't matter
+ c:\path\to\psql.exe -U postgres
+
+CREATE SCHEMA eponadb;
+CREATE USER rik PASSWORD 'admin';
+GRANT ALL ON SCHEMA eponadb TO rik;
+GRANT CONNECT ON DATABASE eponadb to rik;
+GRANT USAGE ON SCHEMA eponadb to rik;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA eponadb TO rik;
+GRANT SELECT ON ALL TABLES IN SCHEMA eponadb TO rik;
+alter rol rik superuser; 
+
+CREATE TABLE IF NOT EXISTS member
+(
+	id BIGINT PRIMARY KEY,
+	achternaam VARCHAR,
+	buitenritten boolean,
+	draftsport boolean,
+	dressuur boolean,
+	ebdurance boolean,
+	eventing boolean,
+	fokken boolean,
+	geboortedatum DATE,
+	inenverkoop boolean,
+	inputemail13 VARCHAR,
+	mennen boolean,
+	naturalhorsemanship boolean,
+	overmij VARCHAR,
+	paard1 VARCHAR,
+	paard2 VARCHAR,
+	paard3 VARCHAR,
+	paard4 VARCHAR,
+	paard5 VARCHAR,
+	paard6 VARCHAR,
+	paard7 VARCHAR,
+	paard8 VARCHAR,
+	paard9 VARCHAR,
+	paard10 VARCHAR,
+	paardentrainen boolean,
+	paardenverzorgen boolean,
+	password VARCHAR,
+	plaatsnamen VARCHAR,
+	polo boolean,
+	rensport boolean,
+	rijdenlocatie boolean,
+	ringsteken boolean,
+	rodeo boolean,
+	samentrainen boolean,
+	showrijden boolean,
+        sportKlasseDressuur VARCHAR,
+        sportKlasseEventing VARCHAR,
+        sportKlasseMennen VARCHAR,
+        sportKlasseSpringen VARCHAR,
+        sportKlasseVoltige VARCHAR,
+	springen boolean,
+	voedinggezondheid boolean,
+	voltige boolean,
+	voorlichting boolean,
+	voornaam VARCHAR,
+	vossenjacht boolean,
+	wedstrijdsport boolean,
+	western boolean,
+	createdon timestamp, 
+	profileimage VARCHAR
+);
+COMMIT;
+
+
+CREATE TABLE IF NOT EXISTS horse
+(
+afstamming VARCHAR,
+drafsport boolean,
+dressuur boolean,
+endurance boolean,
+eventing boolean,
+fokken boolean,
+geboortedatum DATE,
+geslacht VARCHAR,
+horseId BIGINT PRIMARY KEY,
+karakter VARCHAR,
+memberId BIGINT REFERENCES member (id),
+mennen boolean,
+naturalHorsemanship boolean,
+overmijnpaard VARCHAR,
+polo boolean,
+rensport boolean,
+ringsteken boolean,
+rodeo boolean,
+showrijden boolean,
+sportKlasseDressuur VARCHAR,
+sportKlasseEventing VARCHAR,
+sportKlasseMennen VARCHAR,
+sportKlasseSpringen VARCHAR,
+sportKlasseVoltige VARCHAR,
+springen boolean,
+tranfer VARCHAR,
+voltige boolean,
+voornaam VARCHAR,
+vossenjacht boolean,
+waarde VARCHAR,
+western boolean,
+createdon TIMESTAMP,
+horseimage VARCHAR
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS session
+(
+   id BIGINT PRIMARY KEY,
+   achternaam VARCHAR,
+   voornaam VARCHAR,
+   createdon TIMESTAMP
+) 
+WITH (
+  OIDS = FALSE
+)
+;
+ALTER TABLE session
+  OWNER TO rik;
+COMMENT ON TABLE session
+  IS 'Specific table to hold session';
+
+COMMIT;
+
+
+CREATE TABLE IF NOT EXISTS event
+(
+eventname VARCHAR,
+eventdate DATE,
+eventplace VARCHAR,
+eventId BIGINT PRIMARY KEY,
+eventmap BYTEA, 
+onderdeel1 VARCHAR,
+rank1 VARCHAR,
+points1 VARCHAR,
+onderdeel2 VARCHAR,
+rank2 VARCHAR,
+points2 VARCHAR,
+onderdeel3 VARCHAR,
+rank3 VARCHAR,
+points3 VARCHAR,
+comments VARCHAR,
+eventimage VARCHAR,
+image1 VARCHAR,
+image2 VARCHAR, 
+image3 VARCHAR,
+memberid BIGINT REFERENCES member (id),
+horseId BIGINT REFERENCES horse (horseid),
+createdon TIMESTAMP
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS rit
+(
+ritname VARCHAR,
+ritdate DATE,
+ritplace VARCHAR,
+ritId BIGINT PRIMARY KEY,
+ritmap BYTEA, 
+typrit VARCHAR,
+comments VARCHAR,
+ritimage VARCHAR,
+image1 VARCHAR,
+image2 VARCHAR, 
+image3 VARCHAR,
+memberid BIGINT REFERENCES member (id),
+horseId BIGINT REFERENCES horse (horseid),
+createdon TIMESTAMP
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS message
+(
+messageId BIGINT PRIMARY KEY,
+messagetype VARCHAR,
+memberid BIGINT REFERENCES member (id),
+createdon TIMESTAMP
+
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS eventcomment
+(
+eventcommentId BIGINT PRIMARY KEY,
+date DATE,
+createdon TIMESTAMP,
+text VARCHAR,
+tags VARCHAR,
+memberid BIGINT REFERENCES member (id),
+commenttype VARCHAR,
+eventId BIGINT REFERENCES event (eventId)
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS ritcomment
+(
+ritcommentId BIGINT PRIMARY KEY,
+date DATE,
+createdon TIMESTAMP,
+text VARCHAR,
+tags VARCHAR,
+memberid BIGINT REFERENCES member (id),
+commenttype VARCHAR,
+ritId BIGINT REFERENCES event (eventId)
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS messagecomment
+(
+messagecommentId BIGINT PRIMARY KEY,
+date DATE,
+createdon TIMESTAMP,
+text VARCHAR,
+tags VARCHAR,
+memberid BIGINT REFERENCES member (id),
+commenttype VARCHAR,
+messageId BIGINT REFERENCES message (messageId)
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS eventlike
+(
+eventlikeId BIGINT PRIMARY KEY,
+liketype VARCHAR,
+memberid BIGINT REFERENCES member (id),
+eventId BIGINT REFERENCES event (eventId),
+createdon TIMESTAMP
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS ritlike
+(
+ritlikeId BIGINT PRIMARY KEY,
+liketype VARCHAR,
+memberid BIGINT REFERENCES member (id),
+ritId BIGINT REFERENCES event (eventId),
+createdon TIMESTAMP
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS messagelike
+(
+messagelikeId BIGINT PRIMARY KEY,
+liketype VARCHAR,
+memberid BIGINT REFERENCES member (id),
+messageId BIGINT REFERENCES message (messageId),
+createdon TIMESTAMP
+);
+COMMIT;
+
+CREATE TABLE IF NOT EXISTS friend
+(
+friendId BIGINT PRIMARY KEY REFERENCES member (id),
+createdon TIMESTAMP,
+text VARCHAR
+);
+COMMIT;
+

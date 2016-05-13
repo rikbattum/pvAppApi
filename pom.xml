@@ -6,14 +6,14 @@
     <artifactId>nl.paardenvriendjes2018</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
+    
     <name>nl.paardenvriendjes2018</name>
-
-    <properties>
+    
+    <properties>    
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    
+    </properties>  
+   
     <dependencies>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
@@ -28,13 +28,18 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+  
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -84,5 +89,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
