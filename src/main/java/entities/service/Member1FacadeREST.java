@@ -5,7 +5,7 @@
  */
 package entities.service;
 
-import cloudinary.ImageHandler;
+import ImageHandler.*;
 import com.cloudinary.Cloudinary;
 import com.stormpath.sdk.account.Account;
 import com.stormpath.sdk.application.Application;
@@ -45,7 +45,7 @@ public class Member1FacadeREST extends AbstractFacade<Member1> {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Member1 entity) {
-        
+
         // Handle account registration in StormPath
         try {
             System.out.println("CHECK THIS");
@@ -61,18 +61,17 @@ public class Member1FacadeREST extends AbstractFacade<Member1> {
                     .setPassword(entity.getPassword())
                     .getCustomData().put("Id", entity.getId());
             account = application.createAccount(account);
-            
+
         } catch (Exception e) {
             System.out.println("registration did not succeed" + e.getMessage());
         }
-        
+
         // Handle image upload to Cloudinary; 
-                 ImageHandler x = new ImageHandler(); 
-        Cloudinary cloudinary = x.getImageHandler();
+        ImageHandler x = new ImageHandler();
+        Cloudinary cloudinary = x.getInstance();
 //        cloudinary.upload(fileRef, ObjectUtils.emptyMap());
 //         
-        
-        
+
         super.create(entity);
 
     }
