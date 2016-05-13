@@ -5,9 +5,9 @@
  */
 package entities.service;
 
+import Account.AccountHandler;
 import ImageHandler.*;
 import com.cloudinary.Cloudinary;
-import com.stormpath.sdk.account.Account;
 import com.stormpath.sdk.application.Application;
 import com.stormpath.sdk.client.Client;
 import com.stormpath.sdk.client.Clients;
@@ -36,6 +36,7 @@ public class Member1FacadeREST extends AbstractFacade<Member1> {
 
     @PersistenceContext(unitName = "fjvb_nl.paardenvriendjes2018_war_1.0-SNAPSHOTPU")
     private EntityManager em;
+    private AccountHandler accountHandler;
 
     public Member1FacadeREST() {
         super(Member1.class);
@@ -48,22 +49,14 @@ public class Member1FacadeREST extends AbstractFacade<Member1> {
 
         // Handle account registration in StormPath
         try {
-            System.out.println("CHECK THIS");
-            System.out.println(entity);
-            Client client = Clients.builder().build();
-            Application application = client.getResource(System.getenv("STORMPATH_APPLICATION_HREF"), Application.class);
-            Account account = client.instantiate(Account.class);
-            account
-                    .setGivenName(entity.getVoornaam())
-                    .setSurname(entity.getAchternaam())
-                    .setUsername(entity.getVoornaam() + " " + entity.getAchternaam())
-                    .setEmail(entity.getInputemail13())
-                    .setPassword(entity.getPassword())
-                    .getCustomData().put("Id", entity.getId());
-            account = application.createAccount(account);
-
+            accountHandler = new AccountHandler();
         } catch (Exception e) {
-            System.out.println("registration did not succeed" + e.getMessage());
+            System.out.println("Unable to pick up AccountHandler" + e.getStackTrace());
+        }
+        try {
+            accountHandler.createNewUser(entity.getVoornaam(), entity.getAchternaam(), entity.getVoornaam() + " " + entity.getAchternaam(), entity.getInputemail13(), entity.getPassword(), entity.getId());
+        } catch (Exception e) {
+            System.out.println("registration did not succeed" + e.getStackTrace());
         }
 
         // Handle image upload to Cloudinary; 
